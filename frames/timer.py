@@ -99,8 +99,8 @@ class Timer(ttk.Frame):
 
     def reset_timer(self):
         self.stop_timer()
-        pomodoro_time = int(self.controller.pomodoro.get())
-        self.current_time.set(f"{pomodoro_time:02d}:00")
+        pomodoro_time = self.controller.pomodoro.get()
+        self.current_time.set(f"{int(pomodoro_time):02d}:00")
         self.controller.timer_schedule = deque(self.controller.timer_order)
         self.current_timer_label.set(self.controller.timer_schedule[0])
 
@@ -119,7 +119,6 @@ class Timer(ttk.Frame):
 
             self.current_time.set(f"{minutes:02d}:{seconds:02d}")
             self._timer_decrement_job = self.after(1000, self.decrement_time)
-
         elif self.timer_running and current_time == "00:00":
             self.controller.timer_schedule.rotate(-1)
             next_up = self.controller.timer_schedule[0]
@@ -129,10 +128,10 @@ class Timer(ttk.Frame):
                 pomodoro_time = int(self.controller.pomodoro.get())
                 self.current_time.set(f"{pomodoro_time:02d}:00")
             elif next_up == "Short Break":
-                short_break_time = int(self.controller.pomodoro.get())
-                self.current_time.set(f"{short_break_time}:00")
+                short_break_time = int(self.controller.short_break.get())
+                self.current_time.set(f"{short_break_time:02d}:00")
             elif next_up == "Long Break":
-                long_break_time = int(self.controller.pomodoro.get())
+                long_break_time = int(self.controller.long_break.get())
                 self.current_time.set(f"{long_break_time:02d}:00")
 
-            self.after(1000, self.decrement_time)
+            self._timer_decrement_job = self.after(1000, self.decrement_time)

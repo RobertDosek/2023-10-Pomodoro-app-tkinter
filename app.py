@@ -2,9 +2,6 @@ import tkinter as tk
 from tkinter import ttk
 from collections import deque
 from frames import Timer, Settings
-from frames.windows import set_dpi_awareness
-
-set_dpi_awareness()
 
 COLOUR_PRIMARY = "#2e3f4f"
 COLOUR_SECONDARY = "#293846"
@@ -17,7 +14,7 @@ class PomodoroTimer(tk.Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        style = ttk.Style(self)
+        style = ttk.Style()
         style.theme_use("clam")
 
         style.configure("Timer.TFrame", background=COLOUR_LIGHT_BACKGROUND)
@@ -46,6 +43,7 @@ class PomodoroTimer(tk.Tk):
             background=[("active", COLOUR_PRIMARY), ("disabled", COLOUR_LIGHT_TEXT)]
         )
 
+        # Main app window is a tk widget, so background is set directly
         self["background"] = COLOUR_PRIMARY
 
         self.title("Pomodoro Timer")
@@ -55,8 +53,7 @@ class PomodoroTimer(tk.Tk):
         self.pomodoro = tk.StringVar(value=25)
         self.long_break = tk.StringVar(value=20)
         self.short_break = tk.StringVar(value=5)
-        self.timer_order = ["Pomodoro", "Short Break", "Pomodoro", "Short Break", "Pomodoro", "Short Break",
-                            "Pomodoro", "Long Break"]
+        self.timer_order = ["Pomodoro", "Short Break", "Pomodoro", "Short Break", "Pomodoro", "Long Break"]
         self.timer_schedule = deque(self.timer_order)
 
         container = ttk.Frame(self)
@@ -65,13 +62,13 @@ class PomodoroTimer(tk.Tk):
 
         self.frames = {}
 
-        timer_frame = Timer(container, self, lambda: self.show_frame(Settings))
-        timer_frame.grid(row=0, column=0, sticky="NESW")
         settings_frame = Settings(container, self, lambda: self.show_frame(Timer))
+        timer_frame = Timer(container, self, lambda: self.show_frame(Settings))
         settings_frame.grid(row=0, column=0, sticky="NESW")
+        timer_frame.grid(row=0, column=0, sticky="NESW")
 
-        self.frames[Timer] = timer_frame
         self.frames[Settings] = settings_frame
+        self.frames[Timer] = timer_frame
 
         self.show_frame(Timer)
 

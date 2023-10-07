@@ -11,14 +11,23 @@ class Settings(ttk.Frame):
         self.columnconfigure(0, weight=1)
         self.rowconfigure(2, weight=1)
 
-        settings_container = ttk.Frame(self, padding="30 15 30 15", style="Background.TFrame")
+        settings_container = ttk.Frame(
+            self,
+            padding="30 15 30 15",
+            style="Background.TFrame"
+        )
+
         settings_container.grid(row=0, column=0, sticky="EW", padx=10, pady=10)
 
         settings_container.columnconfigure(0, weight=1)
         settings_container.rowconfigure(1, weight=1)
 
-        pomodoro_label = ttk.Label(settings_container, text="Pomodoro", style="LightText.TLabel")
-        pomodoro_label.grid(row=0, column=0, sticky="W")
+        pomodoro_label = ttk.Label(
+            settings_container,
+            text="Pomodoro: ",
+            style="LightText.TLabel"
+        )
+        pomodoro_label.grid(column=0, row=0, sticky="W")
 
         pomodoro_input = tk.Spinbox(
             settings_container,
@@ -27,15 +36,15 @@ class Settings(ttk.Frame):
             increment=1,
             justify="center",
             textvariable=controller.pomodoro,
-            width=10
+            width=10,
         )
-        pomodoro_input.grid(row=0,column=1, sticky="EW")
+        pomodoro_input.grid(column=1, row=0, sticky="EW")
         pomodoro_input.focus()
 
         long_break_label = ttk.Label(
             settings_container,
             text="Long break time: ",
-            style = "LightText.TLabel"
+            style="LightText.TLabel"
         )
         long_break_label.grid(column=0, row=1, sticky="W")
 
@@ -53,7 +62,7 @@ class Settings(ttk.Frame):
         short_break_label = ttk.Label(
             settings_container,
             text="Short break time: ",
-            style = "LightText.TLabel"
+            style="LightText.TLabel"
         )
         short_break_label.grid(column=0, row=2, sticky="W")
 
@@ -75,8 +84,12 @@ class Settings(ttk.Frame):
         button_container.grid(sticky="EW", padx=10)
         button_container.columnconfigure(0, weight=1)
 
-        timer_button = ttk.Button(button_container, text="Back", command=show_timer, cursor="hand2",
-                                  style="PomodoroButton.TButton")
-        timer_button.grid(row=0, column=0, sticky="EW", padx=2)
+        timer_button = ttk.Button(
+            button_container,
+            text="← Back",
+            command=show_timer,
+            style="PomodoroButton.TButton",
+            cursor="hand2"  # hand1 in some systems
+        )
 
-
+        timer_button.grid(column=0, row=0, sticky="EW", padx=2)
